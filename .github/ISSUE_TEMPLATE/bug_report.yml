@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible JLaunch problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to help improve JLaunch. Remove private paths, credentials, and proprietary logs before submitting.
+  - type: input
+    id: version
+    attributes:
+      label: JLaunch version
+      placeholder: v1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [macOS Apple Silicon, macOS Intel, Windows x64, Linux, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Launch mode
+      options: [Spring Boot Maven, Spring Boot JAR, Tomcat, Maven tool window, Application UI]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: Tell us the smallest sequence that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste only sanitized logs. Do not include secrets or proprietary source.
+      render: shell
