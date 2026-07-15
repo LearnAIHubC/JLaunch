@@ -11,9 +11,11 @@ const { MODULE_WORKING_DIR_MACRO } = require('../src/main/working-directory');
 
 test('persists projects, settings and discovered tools in SQLite', (t) => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'java-runs-db-'));
-  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const database = new AppDatabase(path.join(directory, 'app.sqlite'));
-  t.after(() => database.close());
+  t.after(() => {
+    database.close();
+    fs.rmSync(directory, { recursive: true, force: true });
+  });
 
   const saved = database.saveProject({
     name: 'Order service',
@@ -84,7 +86,6 @@ test('persists projects, settings and discovered tools in SQLite', (t) => {
 
 test('migrates version 1 project rows to the new run configuration fields', (t) => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'java-runs-db-migrate-'));
-  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const databasePath = path.join(directory, 'legacy.sqlite');
   const legacy = new DatabaseSync(databasePath);
   legacy.exec(`
@@ -105,7 +106,10 @@ test('migrates version 1 project rows to the new run configuration fields', (t) 
   legacy.close();
 
   const database = new AppDatabase(databasePath);
-  t.after(() => database.close());
+  t.after(() => {
+    database.close();
+    fs.rmSync(directory, { recursive: true, force: true });
+  });
   const project = database.getProject('legacy');
   assert.equal(project.workingDirectory, directory);
   assert.equal(project.moduleWorkingDirectory, directory);
@@ -116,9 +120,11 @@ test('migrates version 1 project rows to the new run configuration fields', (t) 
 
 test('rejects invalid data before it reaches SQLite', (t) => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'java-runs-db-invalid-'));
-  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const database = new AppDatabase(path.join(directory, 'app.sqlite'));
-  t.after(() => database.close());
+  t.after(() => {
+    database.close();
+    fs.rmSync(directory, { recursive: true, force: true });
+  });
   assert.throws(() => database.saveProject({ name: '', type: 'unknown' }), /项目名称/);
   assert.throws(() => database.setSetting('', 'value'), /设置名称/);
 });
