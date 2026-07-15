@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'">
+  <title>JLaunch</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="JLaunch">
+        <div class="brand-mark" aria-hidden="true"><span>J</span></div>
+        <div>
+          <div class="brand-name">JLaunch</div>
+          <div class="brand-subtitle">Java Launch Control</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="button ghost" id="maven-button" type="button" aria-expanded="false" aria-controls="maven-drawer">
+          <span class="maven-button-icon" aria-hidden="true">m</span> Maven
+        </button>
+        <button class="button ghost" id="toolchains-button" type="button">
+          <span class="button-icon" aria-hidden="true">⌘</span> 工具链
+        </button>
+      </div>
+    </header>
+
+    <div class="content-grid">
+      <aside class="sidebar">
+        <div class="sidebar-heading">
+          <div>
+            <h1>项目</h1>
+            <span id="project-count">0 个项目 · 0 个可运行工程</span>
+          </div>
+          <button class="icon-button accent" id="add-project-button" type="button" aria-label="添加项目" title="添加项目">＋</button>
+        </div>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="project-search" type="search" placeholder="搜索项目" autocomplete="off">
+        </label>
+        <div class="project-list" id="project-list" role="listbox" aria-label="项目列表"></div>
+        <div class="sidebar-empty hidden" id="sidebar-empty">
+          <div class="empty-glyph">{ }</div>
+          <strong>还没有项目</strong>
+          <span>添加一个 Spring Boot 或 Tomcat 项目</span>
+          <button class="button secondary" id="empty-add-button" type="button">添加项目</button>
+        </div>
+        <div class="sidebar-footer">
+          <span class="status-dot neutral"></span>
+          <span id="running-summary">没有运行中的进程</span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="welcome-state" id="welcome-state">
+          <div class="welcome-illustration" aria-hidden="true">
+            <span class="ring ring-one"></span><span class="ring ring-two"></span><span class="play">▶</span>
+          </div>
+          <h2>选择一个项目开始</h2>
+          <p>在左侧选择项目，查看运行状态、控制台日志和 Debug 源码。</p>
+          <button class="button primary" id="welcome-add-button" type="button">＋ 添加第一个项目</button>
+        </section>
+
+        <section class="project-workspace hidden" id="project-workspace">
+          <header class="project-header">
+            <div class="project-identity">
+              <div class="project-avatar" id="project-avatar">PR</div>
+              <div class="project-title-block">
+                <div class="project-title-row">
+                  <h2 id="selected-project-name">项目名称</h2>
+                  <span class="status-pill stopped" id="selected-project-status">已停止</span>
+                  <span class="debug-pill hidden" id="selected-project-debug">DEBUG :5005</span>
+                </div>
+                <div class="project-meta">
+                  <span id="selected-project-type">Spring Boot</span>
+                  <span class="meta-separator">•</span>
+                  <button class="path-button" id="selected-project-path" type="button" title="在文件管理器中打开"></button>
+                </div>
+              </div>
+            </div>
+            <div class="project-actions">
+              <button class="button ghost" id="edit-project-button" type="button" aria-label="打开运行配置" title="配置 Working directory、程序参数和环境变量">⚙ 运行配置</button>
+              <button class="button secondary" id="restart-project-button" type="button">↻ 重启</button>
+              <button class="button danger hidden" id="stop-project-button" type="button">■ 停止</button>
+              <button class="button debug" id="debug-project-button" type="button">◆ Debug</button>
+              <button class="button primary" id="start-project-button" type="button">▶ 运行</button>
+              <button class="icon-button danger-text" id="delete-project-button" type="button" aria-label="删除项目" title="删除项目">⌫</button>
+            </div>
+          </header>
+
+          <div class="runtime-strip">
+            <div class="runtime-item">
+              <span class="runtime-label">状态</span>
+              <strong id="runtime-status">已停止</strong>
+            </div>
+            <div class="runtime-item">
+              <span class="runtime-label">PID</span>
+              <strong id="runtime-pid">—</strong>
+            </div>
+            <div class="runtime-item">
+              <span class="runtime-label">启动时间</span>
+              <strong id="runtime-started">—</strong>
+            </div>
+            <div class="runtime-item debug-runtime hidden" id="debug-runtime">
+              <span class="runtime-label">JDWP</span>
+              <strong id="runtime-debug-port">localhost:5005</strong>
+            </div>
+          </div>
+
+          <div class="panel-tabs" role="tablist">
+            <button class="panel-tab active" id="console-tab" type="button" role="tab" aria-selected="true">控制台</button>
+            <button class="panel-tab hidden" id="source-tab" type="button" role="tab" aria-selected="false">源码 <span class="debug-tab-mark">Debug</span></button>
+          </div>
+
+          <section class="console-panel panel-content" id="console-panel" role="tabpanel">
+            <div class="panel-toolbar">
+              <div class="console-indicator"><span class="status-dot neutral" id="console-dot"></span><span id="console-label">等待启动</span></div>
+              <div class="toolbar-actions">
+                <span class="log-limit-label">最近 2,000 行</span>
+                <label class="checkbox compact"><input id="autoscroll-checkbox" type="checkbox" checked><span>自动滚动</span></label>
+                <button class="text-button" id="clear-console-button" type="button">清空</button>
+              </div>
+            </div>
+            <pre class="console-output" id="console-output" tabindex="0" aria-label="进程日志"><span class="console-placeholder">启动项目后，日志会显示在这里。</span></pre>
+            <div class="console-filter-bar">
+              <label class="console-filter-input"><span>筛选</span><input id="console-filter" type="search" placeholder="包含的日志内容" autocomplete="off" aria-describedby="console-filter-summary"></label>
+              <label class="checkbox compact"><input id="console-filter-regex" type="checkbox"><span>正则</span></label>
+              <label class="checkbox compact"><input id="console-filter-case-sensitive" type="checkbox"><span>区分大小写</span></label>
+              <span class="console-filter-summary" id="console-filter-summary" aria-live="polite">共 0 行</span>
+              <button class="text-button" id="clear-console-filter" type="button">清除筛选</button>
+            </div>
+          </section>
+
+          <section class="source-panel panel-content hidden" id="source-panel" role="tabpanel">
+            <aside class="source-sidebar">
+              <div class="source-root">
+                <span>源码</span>
+                <button class="text-button" id="refresh-source-button" type="button">刷新</button>
+              </div>
+              <label class="source-filter"><input id="source-filter" type="search" placeholder="筛选文件" autocomplete="off"></label>
+              <div class="source-file-list" id="source-file-list"></div>
+            </aside>
+            <div class="source-resizer" id="source-resizer" role="separator" aria-label="调整源码目录宽度" aria-orientation="vertical" aria-valuemin="180" aria-valuenow="260" tabindex="0"></div>
+            <div class="code-editor">
+              <div class="editor-header">
+                <span id="editor-file-name">选择一个源码文件</span>
+                <div class="editor-debug-actions">
+                  <span class="debug-connection-status" id="debug-connection-status">等待调试器</span>
+                  <button class="button debug compact hidden" id="resume-debug-button" type="button">▶ 继续</button>
+                  <span class="editor-language" id="editor-language"></span>
+                </div>
+              </div>
+              <div class="editor-empty" id="editor-empty">
+                <div>&lt;/&gt;</div>
+                <span>从左侧选择文件查看源码</span>
+              </div>
+              <div class="code-scroll hidden" id="code-scroll">
+                <pre class="line-numbers" id="line-numbers" aria-hidden="true"></pre>
+                <pre class="code-content" id="code-content" tabindex="0"></pre>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <aside class="maven-drawer hidden" id="maven-drawer" aria-label="Maven 工具窗">
+    <header class="maven-drawer-header">
+      <div><span class="maven-logo">m</span><strong>Maven</strong></div>
+      <button class="dialog-close" id="close-maven-button" type="button" aria-label="关闭 Maven 工具窗">×</button>
+    </header>
+    <div class="maven-toolbar">
+      <select id="maven-project-select" aria-label="选择项目"></select>
+      <button class="icon-button" id="refresh-maven-button" type="button" title="重新加载 Maven 项目">↻</button>
+      <button class="icon-button danger-text hidden" id="stop-maven-button" type="button" title="停止 Maven 任务">■</button>
+    </div>
+    <div class="maven-tree" id="maven-tree"></div>
+    <section class="maven-console">
+      <header><span id="maven-console-status">Maven 控制台</span><div class="maven-console-actions"><span class="log-limit-label">最近 2,000 行</span><button class="text-button" id="clear-maven-console" type="button">清空</button></div></header>
+      <pre id="maven-console-output"><span class="console-placeholder">点击 Lifecycle 目标后，日志会显示在这里。</span></pre>
+      <div class="console-filter-bar maven-console-filter">
+        <label class="console-filter-input"><span>筛选</span><input id="maven-filter" type="search" placeholder="包含的日志内容" autocomplete="off" aria-describedby="maven-filter-summary"></label>
+        <label class="checkbox compact"><input id="maven-filter-regex" type="checkbox"><span>正则</span></label>
+        <label class="checkbox compact"><input id="maven-filter-case-sensitive" type="checkbox"><span>区分大小写</span></label>
+        <span class="console-filter-summary" id="maven-filter-summary" aria-live="polite">共 0 行</span>
+        <button class="text-button" id="clear-maven-filter" type="button">清除筛选</button>
+      </div>
+    </section>
+  </aside>
+
+  <div class="loading-screen" id="loading-screen">
+    <div class="brand-mark large"><span>J</span></div>
+    <div class="spinner"></div>
+    <span>正在加载 JLaunch…</span>
+  </div>
+
+  <dialog class="modal project-modal" id="project-dialog">
+    <form id="project-form" method="dialog" novalidate>
+      <header class="modal-header">
+        <div><h2 id="project-dialog-title">添加项目</h2><p>配置运行方式和项目专属工具链</p></div>
+        <button class="dialog-close" type="button" data-close-dialog="project-dialog" aria-label="关闭">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="form-error hidden" id="project-form-error" role="alert"></div>
+        <input id="project-id" type="hidden">
+        <div class="form-grid two-columns">
+          <label class="field"><span>项目名称 <b>*</b></span><input id="project-name" type="text" maxlength="120" required placeholder="选择目录后自动填写"><small id="project-name-help">取项目根目录的最后一级名称</small></label>
+          <label class="field"><span>运行方式 <b>*</b></span>
+            <select id="project-type" required>
+              <option value="spring-boot-maven">Spring Boot · Maven 工程（直接 Java）</option>
+              <option value="spring-boot-jar">Spring Boot · JAR</option>
+              <option value="tomcat">Tomcat</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field"><span id="project-path-label">项目目录</span>
+          <div class="path-field"><input id="project-path" type="text" required readonly placeholder="选择项目目录"><button type="button" data-browse="project-path">选择…</button></div>
+          <small id="project-path-help">用于项目名称、源码浏览和配置归属</small>
+        </label>
+        <section class="application-discovery hidden" id="application-discovery">
+          <header><div><strong>可运行的 Spring Boot 工程</strong><span id="application-discovery-summary"></span></div><span class="spinner small hidden" id="application-discovery-spinner"></span></header>
+          <div class="application-discovery-list" id="application-discovery-list"></div>
+        </section>
+        <label class="field" id="working-directory-field"><span>Working directory（工作目录） <b>*</b></span>
+          <div class="path-field"><input id="working-directory" type="text" required maxlength="4096" spellcheck="false" placeholder="$MODULE_WORKING_DIR$ 或绝对路径"><button type="button" data-browse="working-directory">选择…</button></div>
+          <small id="working-directory-help">支持 $MODULE_WORKING_DIR$，运行时解析为当前 Application 的模块目录</small>
+        </label>
+        <label class="field hidden" id="artifact-field"><span>可执行 JAR <b>*</b></span>
+          <div class="path-field"><input id="artifact-path" type="text" readonly placeholder="选择已打包的 Spring Boot JAR"><button type="button" data-browse="artifact-path">选择…</button></div>
+        </label>
+
+        <div class="form-section-title">工具链</div>
+        <div class="form-grid two-columns">
+          <label class="field"><span>JDK <b>*</b></span><select id="project-jdk" required></select></label>
+          <label class="field" id="maven-field"><span>Maven <b>*</b></span><select id="project-maven"></select></label>
+          <label class="field hidden" id="tomcat-field"><span>Tomcat <b>*</b></span><select id="project-tomcat"></select></label>
+          <div class="missing-tools hidden" id="missing-tools">没有找到需要的工具？<button type="button" id="open-tools-from-form">管理工具链</button></div>
+        </div>
+
+        <div class="form-section-title">启动选项</div>
+        <label class="field" id="main-class-field"><span>Spring Boot 主类 <em>可选</em></span><input id="project-main-class" type="text" maxlength="500" placeholder="例如：com.example.Application"><small>多启动类项目建议明确填写</small></label>
+        <div class="form-grid two-columns">
+          <label class="field"><span>Spring Profiles</span><input id="project-profiles" type="text" maxlength="500" placeholder="dev,local"></label>
+          <label class="field"><span>启动顺序</span><input id="project-order" type="number" min="-100000" max="100000" value="100" required></label>
+        </div>
+        <label class="field"><span id="arguments-label">程序参数</span><input id="project-arguments" type="text" maxlength="4000" placeholder='例如：--server.port=8081 --name="local service"'><small id="arguments-help">带空格的参数可使用引号</small></label>
+        <label class="field"><span>环境变量 <em>可选</em></span><textarea id="project-environment-variables" maxlength="20000" rows="3" placeholder="SERVER_PORT=9380&#10;SPRING_DATASOURCE_USERNAME=root"></textarea><small>每行一个 KEY=value，也兼容分号分隔；配置保存在本机 SQLite</small></label>
+
+        <div class="toggle-row">
+          <label class="switch-label"><input id="project-enabled" type="checkbox" checked><span class="switch"></span><span><strong>加入按序启动</strong><small>点击“按序启动”时包含此项目</small></span></label>
+        </div>
+        <div class="toggle-row debug-toggle-row">
+          <input class="hidden" id="project-debug" type="checkbox" aria-hidden="true">
+          <div class="debug-option-copy"><strong>Debug 端口</strong><small>点击“Debug”时连接 JDK 自带的 jdb，可在源码行号处设置断点</small></div>
+          <label class="inline-port" id="debug-port-field"><span>端口</span><input id="project-debug-port" type="number" min="1" max="65535" value="5005"></label>
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <button class="button ghost" type="button" data-close-dialog="project-dialog">取消</button>
+        <button class="button primary" id="save-project-button" type="submit">保存项目</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="modal tools-modal" id="toolchains-dialog">
+    <div>
+      <header class="modal-header">
+        <div><h2>本机工具链</h2><p>自动搜索已安装版本，也可以手动添加目录</p></div>
+        <button class="dialog-close" type="button" data-close-dialog="toolchains-dialog" aria-label="关闭">×</button>
+      </header>
+      <div class="modal-body tools-body">
+        <div class="tool-scan-banner">
+          <div><strong>工具链扫描</strong><span id="tool-scan-summary">尚未扫描</span></div>
+          <button class="button secondary" id="scan-tools-button" type="button">↻ 重新扫描</button>
+        </div>
+        <div class="tool-groups" id="tool-groups"></div>
+      </div>
+      <footer class="modal-footer"><button class="button primary" type="button" data-close-dialog="toolchains-dialog">完成</button></footer>
+    </div>
+  </dialog>
+
+  <dialog class="modal confirm-modal" id="confirm-dialog">
+    <div>
+      <header class="modal-header"><div><h2 id="confirm-title">确认操作</h2><p id="confirm-message"></p></div></header>
+      <footer class="modal-footer"><button class="button ghost" id="confirm-cancel" type="button">取消</button><button class="button danger" id="confirm-accept" type="button">确认</button></footer>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <script src="log-buffer.js"></script>
+  <script src="log-filter.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

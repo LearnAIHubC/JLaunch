@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="shell" x1="170" y1="96" x2="852" y2="938" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17263B"/>
+      <stop offset=".52" stop-color="#0C1828"/>
+      <stop offset="1" stop-color="#07111D"/>
+    </linearGradient>
+    <radialGradient id="ambient" cx="0" cy="0" r="1" gradientTransform="translate(294 236) rotate(43) scale(765)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2BD7A6" stop-opacity=".24"/>
+      <stop offset=".58" stop-color="#1B8F78" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#09131F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="286" y1="284" x2="626" y2="764" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8AF4D2"/>
+      <stop offset=".48" stop-color="#55DCB5"/>
+      <stop offset="1" stop-color="#2EAD8A"/>
+    </linearGradient>
+    <linearGradient id="launch" x1="650" y1="286" x2="786" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD977"/>
+      <stop offset="1" stop-color="#FF8B51"/>
+    </linearGradient>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#D8FFF3" stroke-opacity=".045" stroke-width="2"/>
+    </pattern>
+    <clipPath id="clip">
+      <rect x="62" y="62" width="900" height="900" rx="226"/>
+    </clipPath>
+    <filter id="shellShadow" x="0" y="0" width="1024" height="1040" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#02060B" flood-opacity=".58"/>
+    </filter>
+    <filter id="markShadow" x="174" y="180" width="690" height="700" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#020A0D" flood-opacity=".52"/>
+    </filter>
+    <filter id="playGlow" x="532" y="174" width="340" height="340" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect x="62" y="62" width="900" height="900" rx="226" fill="url(#shell)" filter="url(#shellShadow)"/>
+  <g clip-path="url(#clip)">
+    <rect x="62" y="62" width="900" height="900" fill="url(#ambient)"/>
+    <rect x="62" y="62" width="900" height="900" fill="url(#grid)"/>
+    <circle cx="840" cy="824" r="310" fill="#2C6A96" fill-opacity=".08"/>
+    <path d="M792 185 925 318M827 145l138 138" stroke="#68E4C0" stroke-opacity=".10" stroke-width="18" stroke-linecap="round"/>
+  </g>
+  <rect x="75" y="75" width="874" height="874" rx="213" fill="none" stroke="#B7F9E5" stroke-opacity=".13" stroke-width="3"/>
+
+  <g filter="url(#markShadow)">
+    <path d="M374 289h239v285c0 124-63 191-174 191-82 0-139-37-169-103" fill="none" stroke="#04110F" stroke-opacity=".72" stroke-width="148" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M374 289h239v285c0 124-63 191-174 191-82 0-139-37-169-103" fill="none" stroke="url(#mark)" stroke-width="112" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g filter="url(#playGlow)">
+    <circle cx="704" cy="344" r="139" fill="#0B1726" fill-opacity=".96" stroke="#A8F3DC" stroke-opacity=".26" stroke-width="5"/>
+    <circle cx="704" cy="344" r="119" fill="#112437" stroke="#57D8B2" stroke-opacity=".18" stroke-width="2"/>
+    <path d="m665 273 113 71-113 71V273Z" fill="url(#launch)"/>
+    <path d="m675 292 84 52-84 52V292Z" fill="#FFF3C8" fill-opacity=".18"/>
+  </g>
+
+  <g fill="#7DE9C8">
+    <circle cx="770" cy="741" r="11" fill-opacity=".64"/>
+    <circle cx="812" cy="741" r="7" fill-opacity=".36"/>
+    <circle cx="844" cy="741" r="4" fill-opacity=".22"/>
+  </g>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">JLaunch — Java Launch Control</title>
+  <desc id="desc">A branded preview of the JLaunch Java process manager desktop application.</desc>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="20" x2="1110" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#13263A"/><stop offset=".55" stop-color="#0B1624"/><stop offset="1" stop-color="#07101B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(190 96) rotate(40) scale(670 460)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#35D2A4" stop-opacity=".28"/><stop offset="1" stop-color="#35D2A4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="72" y1="76" x2="247" y2="286" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8CF4D3"/><stop offset="1" stop-color="#31B18B"/>
+    </linearGradient>
+    <linearGradient id="play" x1="218" y1="100" x2="280" y2="174" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD875"/><stop offset="1" stop-color="#FF8B50"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#D6FFF2" stroke-opacity=".045"/></pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="180%" height="180%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000" flood-opacity=".42"/></filter>
+  </defs>
+  <rect width="1200" height="460" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="460" rx="28" fill="url(#glow)"/>
+  <rect width="1200" height="460" rx="28" fill="url(#grid)"/>
+  <rect x="1" y="1" width="1198" height="458" rx="27" fill="none" stroke="#9CEFD6" stroke-opacity=".14" stroke-width="2"/>
+
+  <g filter="url(#shadow)">
+    <rect x="58" y="58" width="244" height="244" rx="62" fill="#0A1725" stroke="#A6F2DC" stroke-opacity=".20" stroke-width="2"/>
+    <path d="M121 119h85v102c0 45-23 69-63 69-29 0-50-14-61-38" fill="none" stroke="#04100F" stroke-opacity=".72" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M121 119h85v102c0 45-23 69-63 69-29 0-50-14-61-38" fill="none" stroke="url(#mark)" stroke-width="39" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="238" cy="138" r="48" fill="#10243A" stroke="#70E2BF" stroke-opacity=".40" stroke-width="2"/>
+    <path d="m224 112 41 26-41 26v-52Z" fill="url(#play)"/>
+  </g>
+
+  <text x="57" y="357" fill="#F2F7FB" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="44" font-weight="760">JLaunch</text>
+  <text x="58" y="389" fill="#7F91A5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16" letter-spacing="2">JAVA LAUNCH CONTROL</text>
+  <text x="58" y="421" fill="#AAB8C7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15">Spring Boot · Tomcat · Maven · JDB Debug</text>
+
+  <g transform="translate(360 50)" filter="url(#shadow)">
+    <rect width="782" height="360" rx="18" fill="#0A111A" stroke="#2B3B4E"/>
+    <rect width="782" height="48" rx="18" fill="#0E151E"/>
+    <path d="M0 48h782" stroke="#1F2E3D"/>
+    <circle cx="22" cy="24" r="5" fill="#FF5F57"/><circle cx="39" cy="24" r="5" fill="#FFBD2E"/><circle cx="56" cy="24" r="5" fill="#28C840"/>
+    <rect x="76" y="12" width="25" height="25" rx="7" fill="#15342F" stroke="#52D4AC" stroke-opacity=".5"/>
+    <text x="84" y="30" fill="#69E2BD" font-family="monospace" font-size="15" font-weight="700">J</text>
+    <text x="111" y="29" fill="#E6EDF4" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" font-weight="700">JLaunch</text>
+    <text x="632" y="29" fill="#6EA8FE" font-family="monospace" font-size="11" font-weight="700">m Maven</text>
+    <text x="705" y="29" fill="#92A0B1" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11">⌘ Tools</text>
+
+    <rect y="48" width="205" height="312" fill="#0D151F"/>
+    <path d="M205 48v312" stroke="#223243"/>
+    <text x="17" y="79" fill="#E6EDF4" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" font-weight="700">Projects</text>
+    <text x="17" y="96" fill="#617184" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="9">2 repositories · 4 applications</text>
+    <rect x="14" y="111" width="176" height="28" rx="7" fill="#091019" stroke="#243548"/>
+    <text x="27" y="129" fill="#627489" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="9">⌕ Search projects</text>
+    <text x="17" y="164" fill="#8292A5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="9" font-weight="700">commerce-platform</text>
+    <rect x="13" y="177" width="179" height="49" rx="8" fill="#132A26" stroke="#3A745F"/>
+    <rect x="20" y="185" width="32" height="32" rx="8" fill="#203247"/>
+    <text x="28" y="206" fill="#B9CBE0" font-family="monospace" font-size="10" font-weight="700">OR</text>
+    <text x="62" y="197" fill="#E8EDF4" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700">OrderApplication</text>
+    <text x="62" y="214" fill="#708094" font-family="monospace" font-size="8">110 · Java</text>
+    <rect x="20" y="236" width="32" height="32" rx="8" fill="#203247"/>
+    <text x="28" y="257" fill="#B9CBE0" font-family="monospace" font-size="10" font-weight="700">PA</text>
+    <text x="62" y="248" fill="#D6DEE8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700">PaymentApplication</text>
+    <text x="62" y="265" fill="#708094" font-family="monospace" font-size="8">120 · Java</text>
+    <text x="17" y="294" fill="#8292A5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="9" font-weight="700">identity-service</text>
+    <rect x="20" y="307" width="32" height="32" rx="8" fill="#203247"/>
+    <text x="28" y="328" fill="#B9CBE0" font-family="monospace" font-size="10" font-weight="700">AU</text>
+    <text x="62" y="319" fill="#D6DEE8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700">AuthApplication</text>
+    <text x="62" y="336" fill="#708094" font-family="monospace" font-size="8">130 · Java</text>
+
+    <text x="229" y="82" fill="#EDF2F7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="750">OrderApplication</text>
+    <rect x="356" y="65" width="46" height="20" rx="10" fill="#1A2633"/>
+    <text x="366" y="79" fill="#91A0B1" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">STOPPED</text>
+    <text x="229" y="101" fill="#718297" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="9">Spring Boot · Direct Java</text>
+    <rect x="654" y="65" width="94" height="28" rx="7" fill="#59D6AC"/>
+    <text x="679" y="83" fill="#07130F" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="750">▶ Run</text>
+    <rect x="229" y="120" width="519" height="47" rx="8" fill="#0D1621" stroke="#223245"/>
+    <text x="242" y="138" fill="#64758A" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">STATUS</text>
+    <text x="242" y="155" fill="#AEBCCB" font-family="monospace" font-size="9">Stopped</text>
+    <path d="M400 120v47M566 120v47" stroke="#223245"/>
+    <text x="414" y="138" fill="#64758A" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">PID</text>
+    <text x="580" y="138" fill="#64758A" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">STARTED AT</text>
+    <text x="229" y="195" fill="#E1E8F0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700">Console</text>
+    <path d="M229 209h519" stroke="#223245"/>
+    <rect x="229" y="222" width="519" height="104" rx="8" fill="#070C12" stroke="#1E2C3B"/>
+    <circle cx="244" cy="238" r="3" fill="#64778C"/>
+    <text x="254" y="241" fill="#8292A5" font-family="monospace" font-size="8">Waiting for process output…</text>
+    <rect x="242" y="289" width="356" height="24" rx="5" fill="#0B141E" stroke="#223245"/>
+    <text x="252" y="305" fill="#5F7186" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">Filter logs (text or RegExp)</text>
+    <text x="614" y="305" fill="#78899C" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="8">RegExp · Aa</text>
+  </g>
+</svg>

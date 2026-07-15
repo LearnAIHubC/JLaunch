@@ -1,0 +1,81 @@
+{
+  "name": "java-runs",
+  "version": "1.0.0",
+  "description": "JLaunch — 轻量的 Java 项目运行、调试与进程管理桌面应用",
+  "main": "electron/main.js",
+  "author": "LearnAIHubC",
+  "license": "MIT",
+  "private": true,
+  "homepage": "https://github.com/LearnAIHubC/JLaunch#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LearnAIHubC/JLaunch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LearnAIHubC/JLaunch/issues"
+  },
+  "keywords": [
+    "electron",
+    "java",
+    "spring-boot",
+    "tomcat",
+    "maven",
+    "debugger",
+    "process-manager"
+  ],
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "test": "node --test tests/*.test.js",
+    "lint": "eslint .",
+    "check": "npm run lint && npm test",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "9.39.2",
+    "electron": "43.1.1",
+    "electron-builder": "26.15.3",
+    "eslint": "9.39.2",
+    "globals": "16.4.0"
+  },
+  "build": {
+    "appId": "com.learnaihub.jlaunch",
+    "productName": "JLaunch",
+    "asar": true,
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "package.json",
+      "LICENSE"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "electronLanguages": ["zh-CN", "en-US"],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": ["nsis", "portable"]
+    },
+    "linux": {
+      "category": "Development",
+      "icon": "build/icon.png",
+      "target": ["AppImage", "deb"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
