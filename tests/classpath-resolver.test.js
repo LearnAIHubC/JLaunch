@@ -65,8 +65,8 @@ test('builds an IDEA-style classpath with reactor classes before Maven dependenc
 
   const prepared = await resolver.prepare(project);
   assert.deepEqual(prepared.runtimeClasspath, [
-    path.join(fs.realpathSync(application), 'target', 'classes'),
-    path.join(fs.realpathSync(core), 'target', 'classes'),
+    path.join(await fs.promises.realpath(application), 'target', 'classes'),
+    path.join(await fs.promises.realpath(core), 'target', 'classes'),
     dependencyOne,
     dependencyTwo,
     providedDependency
